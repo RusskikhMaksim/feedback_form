@@ -15,7 +15,7 @@
 <div class="register">
     <div class="container">
         <h1>Регистрация</h1>
-        <form action="{{route('doRegister')}}" method="POST">
+        <form action="{{route('register')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="client-email">email</label>

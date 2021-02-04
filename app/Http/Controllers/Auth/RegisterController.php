@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 
@@ -34,6 +35,7 @@ class RegisterController extends Controller
 
         $user = new User();
         $user->fill($request->all());
+        $user->password = Hash::make($user->password);
         $user->role_id = 2;
         $user->save();
 

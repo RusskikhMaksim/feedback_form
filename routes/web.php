@@ -18,5 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('getRegisterForm');
-Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('doRegister');
+Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('getLoginForm');
+Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 
