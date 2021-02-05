@@ -25,3 +25,7 @@ Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login
 
 Route::get('/appeal', [\App\Http\Controllers\UserAppealController::class, 'showAppealForm'])->name('getAppealForm');
 Route::post('/appeal', [\App\Http\Controllers\UserAppealController::class, 'appeal'])->name('appeal');
+
+Route::get('/admin_panel', [\App\Http\Controllers\ManagerController::class, 'showAdminPanel'])->name('getAdminPanel');
+Route::get('/admin_panel/reviewed', [\App\Http\Controllers\ManagerController::class, 'showReviewedAppeals'])->name('getReviewedAppeals');
+Route::post('/admin_panel/{id}', [\App\Http\Controllers\ManagerController::class, 'reviewAppeal'])->name('reviewAppeal');

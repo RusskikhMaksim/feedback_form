@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,13 @@ class LoginController extends Controller
         if (Auth::attempt($clientData)) {
             $request->session()->regenerate();
 
-            return response()->redirectToRoute('getAppealForm');
+            $currentUser = Auth::user();
+            if($currentUser->role_id === 2) {
+                return response()->redirectToRoute('getAppealForm');
+            } elseif ($currentUser->role_id === 1){
+                return response()->redirectToRoute('getAdminPanel');
+            }
+
         }
 
         return back()->withErrors([
