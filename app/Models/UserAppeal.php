@@ -12,4 +12,10 @@ class UserAppeal extends Model
     protected $table = 'user_appeals';
 
     protected $primaryKey = 'appeal_id';
+
+    protected $fillable = [
+        'subject',
+        'message',
+        'file',
+    ];
 }

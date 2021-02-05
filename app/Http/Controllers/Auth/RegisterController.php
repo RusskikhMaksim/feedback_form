@@ -26,12 +26,6 @@ class RegisterController extends Controller
            'password' => ['required'],
            'confirm_password' => ['required', 'same:password'],
         ]);
-        /*
-        $attributes = [
-          'name' => $request->name,
-          'email' => $request->email,
-          'password' => $request->password,
-        ];*/
 
         $user = new User();
         $user->fill($request->all());

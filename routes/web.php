@@ -19,6 +19,9 @@ Route::get('/', function () {
 
 Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('getRegisterForm');
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+
 Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('getLoginForm');
 Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 
+Route::get('/appeal', [\App\Http\Controllers\UserAppealController::class, 'showAppealForm'])->name('getAppealForm');
+Route::post('/appeal', [\App\Http\Controllers\UserAppealController::class, 'appeal'])->name('appeal');

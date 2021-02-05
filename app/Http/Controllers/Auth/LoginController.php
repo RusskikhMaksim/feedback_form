@@ -10,6 +10,7 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+
         return view('login');
     }
 
@@ -20,7 +21,7 @@ class LoginController extends Controller
         if (Auth::attempt($clientData)) {
             $request->session()->regenerate();
 
-            return response()->view('appeal');
+            return response()->redirectToRoute('getAppealForm');
         }
 
         return back()->withErrors([
