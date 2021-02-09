@@ -1,5 +1,6 @@
 @extends('layouts.client_layout')
 @section('content')
+    <a href="{{route('logout')}}">Log Out</a>
     <h1>Заявка</h1>
     <form action="{{route('appeal')}}" method="POST" enctype="multipart/form-data">
         @csrf

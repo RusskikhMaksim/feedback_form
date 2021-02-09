@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\UserAppealController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,19 +18,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [UserController::class, 'index'])->name('home');
 
-Route::get('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('getRegisterForm');
-Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('getRegisterForm');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('getLoginForm');
-Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('getLoginForm');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/appeal', [\App\Http\Controllers\UserAppealController::class, 'showAppealForm'])->name('getAppealForm');
-Route::post('/appeal', [\App\Http\Controllers\UserAppealController::class, 'appeal'])->name('appeal');
+Route::group(['middleware' => 'checkRole'], function () {
+    Route::get('/appeal', [UserAppealController::class, 'showAppealForm'])->name('getAppealForm');
+    Route::post('/appeal', [UserAppealController::class, 'appeal'])->name('appeal');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
 
-Route::get('/admin_panel', [\App\Http\Controllers\ManagerController::class, 'showAdminPanel'])->name('getAdminPanel');
-Route::get('/admin_panel/reviewed', [\App\Http\Controllers\ManagerController::class, 'showReviewedAppeals'])->name('getReviewedAppeals');
-Route::post('/admin_panel/{id}', [\App\Http\Controllers\ManagerController::class, 'reviewAppeal'])->name('reviewAppeal');
+Route::group(['middleware' => 'checkAdmin', 'prefix' => 'admin_panel'], function () {
+    Route::get('/', [ManagerController::class, 'showAdminPanel'])->name('getAdminPanel');
+    Route::get('/reviewed', [ManagerController::class, 'showReviewedAppeals'])->name('getReviewedAppeals');
+    Route::post('/{id}', [ManagerController::class, 'reviewAppeal'])->name('reviewAppeal');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
