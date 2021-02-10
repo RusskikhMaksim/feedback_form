@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\NotifyManagerJob;
+use App\Mail\AppealShipped;
 use Illuminate\Http\Request;
 use App\Models\UserAppeal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserAppealController extends Controller
 {
@@ -26,6 +29,13 @@ class UserAppealController extends Controller
         $appeal->client_email = $clientData[0]->email;
         $appeal->save();
 
-        return response()->view('appeal_success');
+        if ($appeal) {
+            $details = ['email' => 'recipient@example.com'];
+            NotifyManagerJob::dispatch($appeal, $details);
+
+            return response()->view('appeal_success');
+        }
+
+
     }
 }

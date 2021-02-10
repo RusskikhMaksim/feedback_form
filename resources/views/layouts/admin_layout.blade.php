@@ -31,7 +31,7 @@
     <script src="/admin/admin.js"></script>
 </head>
 <body class="layout-fixed">
-<a href="{{route('logout')}}">Log Out</a>
+<a href="{{route('logoutAdmin')}}">Log Out</a>
 <div class="wrapper">
 
     <!-- Navbar -->

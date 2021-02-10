@@ -18,7 +18,7 @@ class CheckRole
     public function handle(Request $request, Closure $next)
     {
         if (!in_array(auth()->user()->role_id, [1, 2])) {
-            return route('/');
+            return route('home');
         }
 
         return $next($request);

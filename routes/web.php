@@ -36,6 +36,6 @@ Route::group(['middleware' => 'checkAdmin', 'prefix' => 'admin_panel'], function
     Route::get('/', [ManagerController::class, 'showAdminPanel'])->name('getAdminPanel');
     Route::get('/reviewed', [ManagerController::class, 'showReviewedAppeals'])->name('getReviewedAppeals');
     Route::post('/{id}', [ManagerController::class, 'reviewAppeal'])->name('reviewAppeal');
-    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logoutAdmin');
 });
 
