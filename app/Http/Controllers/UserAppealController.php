@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\NotifyManagerJob;
 use App\Mail\AppealShipped;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\UserAppeal;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,21 @@ use Illuminate\Support\Facades\Mail;
 
 class UserAppealController extends Controller
 {
+
     public function showAppealForm()
     {
+        $carbon = Carbon::now();
+        $user = Auth::user();
+//        dd($user);
+        $lastAppeal = DB::table('user_appeals')
+                            ->where('client_email', '=', "$user->email")
+                            ->latest()
+                            ->first();
+
+        if (isset($lastAppeal->created_at) && ($carbon->diffInHours($lastAppeal->created_at) <= 24)) {
+            return view('appeal_rejected');
+        }
+
         return view('appeal');
     }
 
