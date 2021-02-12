@@ -15,12 +15,10 @@ $I->fillField('Введите пароль', 'admin');
 $I->click('Войти');
 $I->seeCurrentUrlEquals('/admin_panel');
 $I->see('Активные заявки');
-//$I->click('Отметить как рассмотренную','.is_reviewed9');
-//$I->amOnRoute('reviewAppeal', ['id' => 9]);
-//$I->amOnAction(ManagerController::class . '@reviewAppeal');
-//$I->canSeeResponseCodeIs(204);
-$I->seeRecord('user_appeals', ['appeal_id' => '1', 'is_reviewed' => 1]);
-
+$I->click('Отметить как рассмотренную');
+$I->canSeeResponseCodeIs(204);
+$I->seeRecord('user_appeals', ['appeal_id' => '9', 'is_reviewed' => 1]);
+$I->amOnPage('/admin_panel');
 $I->seeLink('Рассмотренные заявки');
 $I->seeLink('Log Out');
 $I->click('Рассмотренные заявки');
