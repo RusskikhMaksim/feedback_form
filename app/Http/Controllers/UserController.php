@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    private const ADMIN_ROLE_ID = 1;
+
+    private const USER_ROLE_ID = 2;
+
+    /**
+     * @return RedirectResponse|\Illuminate\Http\Response
+     */
+    public function index()
     {
-        $currentUser = Auth::user();
-        //dd($currentUser);
-        if (isset($currentUser) && $currentUser->role_id === 2) {
+        $role_id = $this->getRole();
+        if ($role_id === self::USER_ROLE_ID) {
             return response()->redirectToRoute('getAppealForm');
-        } elseif (isset($currentUser) && $currentUser->role_id === 1) {
+        } elseif ($role_id === self::ADMIN_ROLE_ID) {
             return response()->redirectToRoute('getAdminPanel');
         }
 

@@ -168,7 +168,7 @@
   </component>
   <component name="Psalm">
     <Psalm_settings>
-      <PsalmConfiguration tool_path="$PROJECT_DIR$/vendor/bin/psalm" />
+      <PsalmConfiguration tool_path="$PROJECT_DIR$/vendor/bin/psalm" timeout="60000" />
     </Psalm_settings>
   </component>
 </project>

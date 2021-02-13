@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
+    public function showLoginForm(): Response
     {
-        return view('login');
+        return response()->view('login');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $clientData = $request->only(['email', 'password']);
 
         if (Auth::attempt($clientData)) {
             $request->session()->regenerate();
 
-            $currentUser = Auth::user();
-            if ($currentUser->role_id === 2) {
+            $role_id = $this->getRole();
+
+            if ($role_id === 2) {
                 return response()->redirectToRoute('getAppealForm');
-            } elseif ($currentUser->role_id === 1) {
+            } elseif ($role_id === 1) {
                 return response()->redirectToRoute('getAdminPanel');
             }
         }
@@ -33,7 +36,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
 

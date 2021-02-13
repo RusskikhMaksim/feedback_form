@@ -12,6 +12,7 @@
         <directory name="database/seeders" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="node_modules" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

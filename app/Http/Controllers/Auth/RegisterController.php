@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -11,14 +13,13 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
+    public function showRegistrationForm(): Response
     {
-        return view('registration');
+        return response()->view('registration');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
-        //dd($request);
         $request->validate([
            'name' => ['required'],
            'email' => ['required'],
@@ -26,15 +27,14 @@ class RegisterController extends Controller
            'confirm_password' => ['required', 'same:password'],
         ]);
 
-        $user = new User();
-        $user->fill($request->all());
-        $user->password = Hash::make($user->password);
-        $user->role_id = 2;
-        $user->save();
+        User::create($request->all());
 
         return response()->redirectToRoute('home');
     }
 
+    /**
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
     protected function guard()
     {
         return Auth::guard();

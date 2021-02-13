@@ -2,54 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\NotifyManagerJob;
-use App\Mail\AppealShipped;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\UserAppeal;
+use Illuminate\Http\Request;
+use App\Jobs\NotifyManagerJob;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class UserAppealController extends Controller
 {
-
-    public function showAppealForm()
+    public function showAppealForm(): Response
     {
-        $carbon = Carbon::now();
-        $user = Auth::user();
-//        dd($user);
-        $lastAppeal = DB::table('user_appeals')
-                            ->where('client_email', '=', "$user->email")
-                            ->latest()
-                            ->first();
+        $userId = Auth::id();
+        $userEmail = User::getUserEmail($userId);
+        $canSend = UserAppeal::canUserSendAppeal($userEmail);
 
-        if (isset($lastAppeal->created_at) && ($carbon->diffInHours($lastAppeal->created_at) <= 24)) {
-            return view('appeal_rejected');
+        if ($canSend) {
+            return response()->view('appeal');
         }
 
-        return view('appeal');
+        return response()->view('appeal_rejected');
     }
 
-    public function appeal(Request $request)
+    public function appeal(Request $request): Response
     {
-        $appeal = new UserAppeal();
-        $appeal->fill($request->except('_token'));
-        $clientId = Auth::id();
-        $clientData = DB::table('users')
-            ->where('id', '=', "$clientId")
-            ->get();
-        $appeal->client_name = $clientData[0]->name;
-        $appeal->client_email = $clientData[0]->email;
-        $appeal->save();
+        $appeal = UserAppeal::create($request->except('_token'));
 
-        if ($appeal) {
-            $details = ['email' => 'recipient@example.com'];
-            NotifyManagerJob::dispatch($appeal, $details);
+        $details = ['email' => 'recipient@example.com'];
+        NotifyManagerJob::dispatch($appeal, $details);
 
-            return response()->view('appeal_success');
-        }
-
-
+        return response()->view('appeal_success');
     }
 }

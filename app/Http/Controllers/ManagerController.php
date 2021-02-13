@@ -2,40 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\UserAppeal;
 use Illuminate\Http\Response;
 
 class ManagerController extends UserController
 {
-    public function showAdminPanel()
-    {
-        $appeals = DB::table('user_appeals')
-            ->where('is_reviewed', '=', '0')
-            ->get();
+    private const REVIEWED = 1;
 
-        return view('admin_index', ['appeals' => $appeals]);
+    private const NOT_REVIEWED = 0;
+
+    public function showAdminPanel(): Response
+    {
+        $appeals = UserAppeal::where('is_reviewed', '=', self::NOT_REVIEWED)->get();
+
+        return response()->view('admin_index', ['appeals' => $appeals]);
     }
 
-    public function reviewAppeal(Request $request, $id)
+    public function reviewAppeal(int $id): Response
     {
-
-        DB::table('user_appeals')
-            ->where('appeal_id', '=', "$id")
-            ->update(['is_reviewed' => 1]);
-
-
-
+        UserAppeal::where('appeal_id', '=', "$id")->update(['is_reviewed' => self::REVIEWED]);
 
         return response()->make('', 204);
     }
 
-    public function showReviewedAppeals()
+    public function showReviewedAppeals(): Response
     {
-        $appeals = DB::table('user_appeals')
-            ->where('is_reviewed', '=', '1')
-            ->get();
+        $appeals = UserAppeal::where('is_reviewed', '=', self::REVIEWED)->get();
 
-        return view('admin_reviewed', ['appeals' => $appeals]);
+        return response()->view('admin_reviewed', ['appeals' => $appeals]);
     }
 }
