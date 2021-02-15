@@ -50,6 +50,7 @@ class User extends Authenticatable
         $this->role_id = 2;
     }
 
+
     public static function getUserEmail(int $id): string
     {
         $email = self::where('id', '=', "$id")->get('email');
