@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserAppeal extends Model
 {
@@ -31,6 +31,10 @@ class UserAppeal extends Model
         $clientData = User::where('id', '=', "$clientId")->get(['name', 'email']);
         $this->client_name = $clientData[0]->name;
         $this->client_email = $clientData[0]->email;
+
+        if (isset($this->file)) {
+            $this->saveFileOnServer();
+        }
     }
 
     public static function canUserSendAppeal(string $email): bool
@@ -46,5 +50,10 @@ class UserAppeal extends Model
         }
 
         return true;
+    }
+
+    public function saveFileOnServer(): void
+    {
+        $this->file = Storage::putFile('storage', $this->file);
     }
 }

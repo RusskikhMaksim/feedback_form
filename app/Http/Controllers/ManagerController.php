@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\UserAppeal;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ManagerController extends UserController
 {
@@ -30,5 +32,13 @@ class ManagerController extends UserController
         $appeals = UserAppeal::where('is_reviewed', '=', self::REVIEWED)->get();
 
         return response()->view('admin_reviewed', ['appeals' => $appeals]);
+    }
+
+    public function getFileFromAppeal(int $id): StreamedResponse
+    {
+        $filePath = UserAppeal::where('appeal_id', '=', "$id")->get(['file']);
+        $file = $filePath[0]['file'];
+
+        return Storage::download("$file");
     }
 }

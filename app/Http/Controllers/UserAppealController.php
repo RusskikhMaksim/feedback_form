@@ -26,6 +26,12 @@ class UserAppealController extends Controller
 
     public function appeal(Request $request): Response
     {
+        $request->validate([
+            'subject' => ['required'],
+            'message' => ['required'],
+            'file' => ['mimes:png,jpeg,txt,pdf,doc,docx'],
+        ]);
+
         $appeal = UserAppeal::create($request->except('_token'));
 
         $details = ['email' => 'recipient@example.com'];

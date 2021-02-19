@@ -79,7 +79,11 @@
                                         {{$appeal->client_email}}
                                     </td>
                                     <td>
-                                        {{$appeal->file}}
+                                        @if(isset($appeal->file))
+                                            <a href="{{route('getFile', $appeal->appeal_id)}}">Файл</a>
+                                        @else
+                                            <p>Файл не был прикреплён</p>
+                                        @endif
                                     </td>
                                     <td>
                                         {{$appeal->created_at}}
