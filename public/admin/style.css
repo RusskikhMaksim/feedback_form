@@ -1,3 +1,26 @@
 .content-wrapper{
     margin: auto auto;
 }
+
+.links{
+    padding-top: 4px;
+    margin-bottom: 10px;
+}
+
+.logout-link{
+    position: absolute;
+    right: 20px;
+    color: white;
+    margin-left: 20px;
+    background-color: #0062cc;
+    border: 3px solid #005cbf;
+    border-radius: 4px;
+}
+
+.reviewed-link{
+    color: white;
+    margin-left: 5px;
+    background-color: #0062cc;
+    border: 3px solid #005cbf;
+    border-radius: 4px;
+}

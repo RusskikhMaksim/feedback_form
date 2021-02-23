@@ -41,9 +41,11 @@ class UserAppeal extends Model
     {
         $carbon = Carbon::now();
 
+
         $lastAppeal = self::where('client_email', '=', "$email")
                             ->latest()
                             ->first();
+
 
         if (isset($lastAppeal->created_at) && ($carbon->diffInHours($lastAppeal->created_at) <= 24)) {
             return false;

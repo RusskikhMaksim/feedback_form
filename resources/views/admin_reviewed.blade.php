@@ -4,7 +4,7 @@
 @section('title', 'Рассмотренные заявки')
 
 @section('appealsNavigation')
-    <a href="{{route('getAdminPanel')}}">Активные заявки</a>
+    <a class="reviewed-link" href="{{route('getAdminPanel')}}">Активные заявки</a>
 @endsection
 
 @section('content')

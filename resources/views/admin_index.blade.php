@@ -4,7 +4,7 @@
 @section('title', 'Активные заявки')
 
 @section('appealsNavigation')
-    <a href="{{route('getReviewedAppeals')}}">Рассмотренные заявки</a>
+    <a class="reviewed-link" href="{{route('getReviewedAppeals')}}">Рассмотренные заявки</a>
 @endsection
 
 @section('content')

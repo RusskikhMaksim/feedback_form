@@ -1,4 +1,10 @@
 @extends('layouts.client_layout')
+
+@section('style')
+<link rel="stylesheet" href="/client/auth.css">
+@endsection
+
+
 @section('content')
 
 
@@ -12,29 +18,25 @@
         </div>
     @endif
 
-<div class="register">
-    <div class="container">
-        <h1>Регистрация</h1>
-        <form action="{{route('register')}}" method="POST">
+<div class="main-content">
+    <div class="main-content__inner">
+        <h1 class="auth-title">Регистрация</h1>
+        <form class="auth-form" action="{{route('register')}}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="client-email">email</label>
-                <input id="client-email" name="email" type="email" required>
+                <input class="form-group__input" id="client-email" name="email" type="email" placeholder="email" required>
             </div>
             <div class="form-group">
-                <label for="client-name">name</label>
-                <input id="client-name" name="name" type="text" required>
+                <input class="form-group__input" id="client-name" name="name" type="text" placeholder="name" required>
             </div>
             <div class="form-group">
-                <label for="client-password">password</label>
-                <input id="client-password" name="password" type="password" required>
+                <input class="form-group__input" id="client-password" name="password" type="password" placeholder="password" required>
             </div>
             <div class="form-group">
-                <label for="client-confirm-password">Confirm password</label>
-                <input id="client-confirm-password" name="confirm_password" type="password" required>
+                <input class="form-group__input" id="client-confirm-password" name="confirm_password" type="password" placeholder="confirm password" required>
             </div>
 
-            <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+            <button type="submit" class="btn btn-success" id="auth-button">Зарегистрироваться</button>
 
         </form>
 

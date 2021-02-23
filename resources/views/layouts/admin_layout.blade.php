@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ-панель - @yield('title')</title>
 
-    @yield('appealsNavigation')
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -31,7 +29,10 @@
     <script src="/admin/admin.js"></script>
 </head>
 <body class="layout-fixed">
-<a href="{{route('logoutAdmin')}}">Log Out</a>
+<div class="links">
+    @yield('appealsNavigation')
+    <a class="logout-link" href="{{route('logoutAdmin')}}">Log Out</a>
+</div>
 <div class="wrapper">
 
     <!-- Navbar -->

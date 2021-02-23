@@ -55,6 +55,6 @@ class User extends Authenticatable
     {
         $email = self::where('id', '=', "$id")->get('email');
 
-        return $email;
+        return $email[0]['email'];
     }
 }
